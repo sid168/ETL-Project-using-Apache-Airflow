@@ -92,6 +92,68 @@ def download_file():
 
 This Python function downloads the file from the given URL and saves it as `web-server-access-log.txt`.
 
+### 1. `def download_file():`
+This line defines a Python function named `download_file()`. In this case, the task is downloading a file from the internet.
+
+---
+
+### 2. `url = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DB0250EN-SkillsNetwork/labs/Apache%20Airflow/Build%20a%20DAG%20using%20Airflow/web-server-access-log.txt"`
+Here, we’re storing the link (URL) of the file that we want to download into the variable `url`. This URL points to a file (a web server access log) that’s stored online.
+
+---
+
+### 3. `with requests.get(url, stream=True) as response:`
+This line sends a request to the website asking for the file located at the `url`. The `requests.get()` function does the job of contacting the server to get the file.
+
+- **`stream=True`:** This tells Python to download the file in small pieces (chunks) rather than all at once. This is useful for large files.
+- **`as response`:** This assigns the result of the `requests.get()` call to a variable called `response`. The `with` keyword ensures that everything is cleaned up properly when done, even if there's an error.
+
+---
+
+### 4. `response.raise_for_status()`
+This line checks if there was any problem with the download request. If the server couldn’t find the file or if there was some other issue, this command will raise an error. It’s like saying, “If something went wrong, stop here and raise an alert!”
+
+---
+
+### 5. `with open(input_file, 'wb') as file:`
+This line opens a new file on your computer for writing. 
+
+- **`input_file`:** This is the name of the file on your computer where the downloaded content will be saved. You’d define this earlier in the script.
+- **`'wb'`:** This means "write binary," telling Python to write the file in binary mode. Binary mode is used because we’re downloading a raw file, which might contain data other than just text (like images or special characters).
+- **`as file`:** This assigns the opened file to the variable `file`, so that the program can write into it.
+
+---
+
+### 6. `for chunk in response.iter_content(chunk_size=8192):`
+This line begins a loop to process the file in chunks (pieces). 
+
+- **`response.iter_content()`:** This function allows us to download the file piece by piece instead of all at once. Each chunk is a small portion of the file.
+- **`chunk_size=8192`:** This specifies the size of each chunk (8 KB or 8192 bytes). So, the file will be downloaded in 8 KB pieces.
+- **`for chunk in ...`:** This loop runs once for each chunk and writes it to the file.
+
+---
+
+### 7. `file.write(chunk)`
+This line writes each chunk of data into the file on your computer. The loop continues until all chunks are downloaded and written, so the full file is saved piece by piece.
+
+---
+
+### 8. `print(f"File downloaded successfully: {input_file}")`
+After the file is fully downloaded, this line prints a message to confirm that everything worked. It includes the name of the file where the content was saved (`input_file`).
+
+---
+
+### Final Overview:
+- **Define the function.**
+- **Specify the file URL.**
+- **Request the file from the server.**
+- **Check if the request was successful.**
+- **Open a local file for writing.**
+- **Download and save the file chunk by chunk.**
+- **Print a success message.**
+
+This process ensures you can download a file from the web and store it locally on your computer in a safe and efficient manner.
+
 #### b) **Extract Task:**
 This task reads the log file and extracts the `timestamp` and `visitorid` fields.
 
